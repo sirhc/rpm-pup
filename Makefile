@@ -1,4 +1,5 @@
 SPEC    = pup.spec
+REPO    = personal
 
 ARCH    = $(shell rpm --eval '%{_arch}')
 NAME    = $(shell rpmspec --srpm -q --qf '%{name}\n' $(SPEC))
@@ -14,7 +15,7 @@ clean:
 	spectool --list-files $(SPEC) | awk '{ print $$2 }' | sed -e 's,.*/,,' | xargs -I {} rm -f $(shell rpm --eval '%{_sourcedir}')/{}
 
 publish: $(SRCRPM)
-	copr-cli build personal $(SRCRPM)
+	copr-cli build $(REPO) $(SRCRPM)
 
 $(SRCRPM): $(SPEC)
 	spectool --get-files --sourcedir $(SPEC)
